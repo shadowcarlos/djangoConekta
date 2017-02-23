@@ -1,0 +1,109 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    /*para el background: */
+    background-color: #20558b;
+    height: 100%;
+    background-size: cover;
+    background-repeat: repeat;
+}
+
+.certificatecontainer{
+  border-right: medium none color;
+  border-bottom: 2px solid #D4DCDF;
+  padding-right: 16px;
+}
+
+.creditcardcontainer{
+  padding-left: 0px;
+}
+
+
+
+.flex-container {
+    /* flexbox  */
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-center{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
+
+.cardCustomCC {
+  margin: auto;/* para centrar el elemento de la flexbox*/
+  width: 360px;
+}
+
+/*.cardCustomCC .mdl-card__supporting-text{
+  display: -webkit-flex;
+  display: flex;
+}
+
+car*/
+
+/*
+CSS para pantallas mas pequñas que 600px(celulares) segun el framework de materialize
+yo considero un celular de 480px de ancho para bajo... pero pues lo tomare en base a
+eso...
+*/
+@media only screen and (min-width: 600px) {
+    .cardCustomCC {
+      margin: auto;/* para centrar el elemento de la flexbox*/
+      width: 576px;
+    }
+
+    body {
+        background-image: url(/static/images/freeway3_phone.jpg);
+        height: 100%;
+        background-size: cover;
+    }
+
+    .certificatecontainer{
+      border-right: 2px solid #D4DCDF;
+      border-bottom: none;
+      padding-right: 16px;
+    }
+
+    .creditcardcontainer{
+      padding-left: 8px;
+    }
+}
+
+@media only screen and (min-width: 1366px) {
+    .cardCustomCC {
+      margin: auto;/* para centrar el elemento de la flexbox*/
+      width: 960px;
+    }
+
+    body {
+        background-image: url(/static/images/freeway3.jpg);
+        height: 100%;
+        background-size: cover;
+    }
+
+    .certificatecontainer{
+      border-right: 2px solid #D4DCDF;
+      border-bottom: none;
+      padding-right: 16px;
+    }
+
+    .creditcardcontainer{
+      padding-left: 8px;
+    }
+}

@@ -1,0 +1,230 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Template Base</title>
+  <link rel="stylesheet" href="{% static 'css/material.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/credit_card.css' %}">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+
+  <div class="flex-container">
+
+    <form  class="mdl-card cardCustomCC mdl-shadow--16dp" action="/venta/cobrar" method="POST" id="card-form">
+    {% csrf_token %}
+      <div class="mdl-card__title mdl-grid">
+        <img src="/static/images/certificate.svg" alt="certificate_by" height="128" width="128">
+        <br><br>
+      </div>
+      <div class="mdl-card__supporting-text mdl-grid">
+
+
+        <!-- Datos del Certificado -->
+        <div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone certificatecontainer">
+          <h4 class="mdl-cell--12-col" >Certificados</h4>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input  id="asociacion" name="asociacion" type="text" class="mdl-textfield__input" pattern="[A-Z,a-z, ]*" v-model="asociacion" style="text-transform:uppercase">
+            <label for="asociacion" class="mdl-textfield__label">Asociacion</label>
+            <span  class="mdl-textfield__error">Solo Letras y Espacios</span>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+           <input  id="cantidad" name="cantidad" type="number"  class="mdl-textfield__input" v-model="cantidad" pattern="[0-9]*">
+            <label for="cantidad" class="mdl-textfield__label">*Cantidad</label>
+            <span  class="mdl-textfield__error">Solo Números</span>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+            <input  id="preciocertificado" name="preciocertificado" type="text"  class="mdl-textfield__input" v-model="precioCertificado" readonly >
+            <label for="preciocertificado" class="mdl-textfield__label">Precio Certificado</label>
+          </div>
+
+          
+
+          <input   id="tipocambio" name="tipocambio" type="text" class="validate" value= "{{ tipocambio }}" hidden>
+          <input  id="comisionObj" name="comisionObj" type="text" class="validate" value= "{{ objComision }}" hidden>
+          
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input  id="monto" name="monto" type="text" class="mdl-textfield__input" v-model="getMonto" readonly>
+            <label for="monto" class="mdl-textfield__label">Monto</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+            <input  id="montoiva" name="montoiva" type="text" class="mdl-textfield__input" v-model="getMIVA" readonly>
+            <label for="montoiva" class="mdl-textfield__label">Monto IVA</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+            <input  id="ivaporcentaje" name="ivaporcentaje" type="text" class="mdl-textfield__input" v-model="iva" readonly>
+            <label for="ivaporcentaje" class="mdl-textfield__label">IVA Porcentaje</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+            <input  id="total" name="total" type="text" class="mdl-textfield__input" v-model="getSubTotal" readonly>
+            <label for="total" class="mdl-textfield__label">SubTotal</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+            <input  id="comision" name="comision" type="text"  class="mdl-textfield__input" v-model="getComision" readonly> 
+            <input  id="comisionObj" name="comisionObj" type="hidden" class="validate" v-model="comision">
+            <label for="comision" class="mdl-textfield__label">Comisión</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input  id="total2" name="total2" type="text" class="mdl-textfield__input" v-model="getTotal" readonly>
+            <label for="total2" class="mdl-textfield__label">Total</label>
+          </div>
+
+        </div>
+
+        <!-- Datos del Certificado -->
+        <div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--12-col-phone creditcardcontainer" style="padding-left: 8px;">
+          <h4 class="mdl-cell--12-col">Tarjeta de Crédito</h4>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input class="mdl-textfield__input" type="text" id="cardHolder" size="20" data-conekta="card[name]" pattern="[A-Z,a-z, ]*" v-model="nombreth" style="text-transform:uppercase">
+            <label class="mdl-textfield__label" for="cardHolder">*Nombre Tarjeta Habiente</label>
+            <span  class="mdl-textfield__error">Solo Letras y Espacios</span>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input class="mdl-textfield__input" type="text" id="cardPhone" name="cardPhone"  pattern="(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}" v-model="telefonoth">
+            <label class="mdl-textfield__label" for="cardPhone">*Teléfono Tarjeta Habiente</label>
+            <span  class="mdl-textfield__error">Verifica el número teléfonico</span>
+          </div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input class="mdl-textfield__input" type="email" id="cardEmail" name="cardEmail" v-model="correoth">
+            <label class="mdl-textfield__label" for="cardEmail">*E-mail Tarjeta Habiente</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input class="mdl-textfield__input" type="text" id="cardNumber" size="20" data-conekta="card[number]" pattern="[0-9]{13,16}" v-model="numerotarjeta">
+            <label class="mdl-textfield__label" for="cardNumber">*Número de la Tarjeta</label>
+            <span  class="mdl-textfield__error">Verifica el Numero de la tarjeta...</span>
+          </div>
+
+          <fieldset class="mdl-grid">
+            <legend>*Fecha de Expiración</legend>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--5-col">
+              <input class="mdl-textfield__input" type="text" id="cardExpirationDate" size="2" data-conekta="card[exp_month]" v-model="mesexp" pattern="^(0?[1-9]|1[012])$" maxlength="2">
+              <label class="mdl-textfield__label" for="cardExpirationDate">(MM)</label>
+            </div>
+            <div class="mdl-cell--1-col"><p style="justify-content:bottom;">/</p></div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+              <input class="mdl-textfield__input" type="text" id="cardExpirationYear" size="4" data-conekta="card[exp_year]" v-model="anoexp" pattern="[0-9]{4}" maxlength="4">
+              <label class="mdl-textfield__label" for="cardExpirationYear">(AAAA)</label>
+            </div>
+          </fieldset>
+
+          <!--<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+            <input class="mdl-textfield__input" type="text" id="cardExpirationDate" size="2" data-conekta="card[exp_month]">
+            <label class="mdl-textfield__label" for="cardExpirationDate">Expiration Date</label>
+          </div>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--6-col">
+            <input class="mdl-textfield__input" type="text" id="cardExpirationYear" size="4" data-conekta="card[exp_year]">
+            <label class="mdl-textfield__label" for="cardExpirationYear">Expiration Year</label>
+          </div>-->
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell--12-col">
+            <input class="mdl-textfield__input" type="text" id="cardCVC" size="4" data-conekta="card[cvc]" type="text">
+            <label class="mdl-textfield__label" for="cardCVC">CVC</label>
+          </div>
+
+          <span class="mdl-cell--12-col card-errors"></span>
+        </div>
+
+      </div>
+      <div class="mdl-card__actions">
+        <div class="flex-container">
+          <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            Confirmar Pago
+          </button>
+        </div>
+      </div>
+  </form>
+
+
+  <!-- SCRIPTS -->
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script defer src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>
+  <script type="text/javascript"  src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+  <script type="text/javascript"  src="{% static 'js/vue.js' %}"></script>
+
+  <script type="text/javascript">
+  /** VUE CODE BASE **/
+  var formularioCertificado = new Vue({
+    el: "#card-form",
+    data: {
+      cantidad: 0,
+      precioCertificado: "{{preciocert}}",
+      iva: "{{iva}}" / 100,
+      comision : "{{objComision}}"
+    },
+    computed: {//podrian ser methodos pero no se si se puedan atar como modelos...
+      getMonto: function () {
+        return parseFloat(this.precioCertificado * this.cantidad).toFixed(2);
+      },
+      getMIVA: function () {
+        return parseFloat(this.getMonto * (this.iva)).toFixed(2);
+      },
+      getSubTotal: function () {
+        var a = parseFloat(this.getMonto) + parseFloat(this.getMIVA);
+        return (a).toFixed(2);
+      },
+      getComision: function () {
+        //alert(this.comision)
+        var total_comi = parseFloat(this.getSubTotal) + ((parseFloat(this.getSubTotal)/ (100 - parseFloat(this.comision)) ) * parseFloat(this.comision)) + 2.5;
+        var comi = total_comi - parseFloat(this.getSubTotal);
+        if ( comi == 2.5){
+          comi = 0.0
+        }
+        return (comi).toFixed(2);
+      },
+      getTotal: function () {
+        var tot = parseFloat(this.getSubTotal) + parseFloat(this.getComision)
+        return tot.toFixed(2);
+      }
+    }
+  });
+
+  //TODO Encapsular codigo coneckta en vue
+
+  /** CONECKTA CODE **/
+    $(document).ready(function() {
+
+      Conekta.setPublishableKey('key_GD15mboKThmiSWM47raYFxg');
+
+      var conektaSuccessResponseHandler = function(token) {
+        var $form = $("#card-form");
+        //Inserta el token_id en la forma para que se envíe al servidor
+        $form.append($("<input type='hidden' id='conektaTokenId' name ='conektaTokenId'>").val(token.id));
+        $form.get(0).submit(); //Hace submit
+      };
+      var conektaErrorResponseHandler = function(response) {
+        var $form = $("#card-form");
+        $form.find(".card-errors").text(response.message_to_purchaser);
+        $form.find("button").prop("disabled", false);
+      };
+
+      //jQuery para que genere el token después de dar click en submit
+      $(function () {
+        $("#card-form").submit(function(event) {
+          var $form = $(this);
+          // Previene hacer submit más de una vez
+          $form.find("button").prop("disabled", true);
+          Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
+          return false;
+        });
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>

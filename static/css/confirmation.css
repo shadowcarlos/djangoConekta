@@ -1,0 +1,50 @@
+
+html, body {
+    height: 100%;
+}
+
+.flex-container {
+    /* flexbox  */
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardlogin {
+  margin: auto;/* para centrar el elemento de la flexbox*/
+  width: 550px;
+  /*height: 734px;*/
+}
+
+#logo{
+  height: 40px;
+  width: 216px;
+  margin-bottom: 16px;
+}
+
+.flexButtonsCard{
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+/*
+CSS para pantallas mas pequñas que 600px(celulares) segun el framework de materialize
+yo considero un celular de 480px de ancho para bajo... pero pues lo tomare en base a
+eso...
+*/
+@media only screen and (max-width: 600px) {
+    .cardlogin {
+      margin: auto;/* para centrar el elemento de la flexbox*/
+      width: 360px;
+      /*height: 480px;*/
+    }
+}
